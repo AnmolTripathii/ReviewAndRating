@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import ReviewHighlighter from './ReviewHighlighter/ReviewHighlighter';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = require('./ReviewData/ReviewData.json');
+                setReviews(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
+        <div className="app-container">
+            <h1>Reviews</h1>
+            <ReviewHighlighter reviews={reviews} />
+        </div>
+    );
+};
 
 export default App;
